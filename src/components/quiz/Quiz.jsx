@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import './Quiz.css'
 import { data } from '../../assets/data.jsx';
 
@@ -9,6 +9,7 @@ const Quiz = () => {
     let [lock, setLock] = useState(false); //lock the answer after selecting
     let [score, setScore] = useState(0); //score of the user
     let [result, setResult] = useState(false); //show the result after the last question
+    let [excellentResult, setExcellentRsult] = useState();
 
     let option1 = useRef(null);
     let option2 = useRef(null);
@@ -64,6 +65,13 @@ const Quiz = () => {
         });*/
     }
 
+    useEffect(() => {
+        score >= 4 ?
+            setExcellentRsult('Excellent results!') :
+            setExcellentRsult('Try again for better results.');
+        
+    }, [score]);
+
     return (
         <div className='container'>
             <h2>React Quiz App</h2>
@@ -81,6 +89,7 @@ const Quiz = () => {
             </>}
 
             {result ? <>
+                <h3>{excellentResult}</h3>
                 <h3>Your score is {score} out of {data.length}</h3>
                 <button onClick={resetQuiz}>Reset</button>
             </> : <></>}
